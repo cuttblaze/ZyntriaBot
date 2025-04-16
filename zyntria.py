@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import re
 from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from telegram.constants import ParseMode
 
@@ -14,13 +15,17 @@ def escape_md(text):
 
 # Команда /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("📖 About", callback_data="about")],
+        [InlineKeyboardButton("🛰 Socials", callback_data="socials")],
+        [InlineKeyboardButton("⚙️ Create Figure", callback_data="create")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
     await update.message.reply_text(
-        "🛰  Welcome to ZYNTRIA.\n\n"
-        "We design collectible figures forged from data and resin — artifacts of imagined worlds and digital craftsmanship.\n\n"
-        "Choose your directive:\n"
-        "/about – What is ZYNTRIA\n"
-        "/early – You're early, stay updated\n"
-        "/socials – Connect across the grid"
+        "🛰 Welcome to *ZYNTRIA* — your gateway to synthetic mythology.",
+        reply_markup=reply_markup,
+        parse_mode=ParseMode.MARKDOWN
     )
 
 # Команда /about
@@ -45,7 +50,7 @@ async def socials(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message,
         parse_mode=ParseMode.MARKDOWN_V2
     )
-    
+
 # Команда /early
 async def early(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
