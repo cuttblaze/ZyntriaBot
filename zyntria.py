@@ -1,8 +1,8 @@
+from dotenv import load_dotenv
+import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from telegram.constants import ParseMode
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN") # TOKEN
@@ -51,7 +51,7 @@ async def override(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Запуск приложения
 if __name__ == '__main__':
-    app = ApplicationBuilder().token(TOKEN).build()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("about", about))
