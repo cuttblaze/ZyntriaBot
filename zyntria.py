@@ -1,11 +1,16 @@
 from dotenv import load_dotenv
 import os
+import re
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from telegram.constants import ParseMode
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN") # TOKEN
+
+def escape_md(text):
+    escape_chars = r'\_*[]()~`>#+-=|{}.!'
+    return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text)
 
 # Команда /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -26,16 +31,21 @@ async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 # Команда /socials
+
 async def socials(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
+    message = (
         "🌐  CONNECT WITH HQ:\n\n"
-        "[🌍 Website - in Progress](In Progress)\n"
+        "[🌍 Website \\- in Progress](https://zyntria.com)\n"
         "[📸 Instagram](https://www.instagram.com/zyntria.lab/)\n"
         "[🎥 TikTok](https://www.tiktok.com/@zyntria.lab)\n"
-        "[🕊 X](https://x.com/ZyntriaLab)",
-        parse_mode=ParseMode.MARKDOWN_V2
+        "[🕊 X](https://x.com/ZyntriaLab)"
     )
 
+    await update.message.reply_text(
+        message,
+        parse_mode=ParseMode.MARKDOWN_V2
+    )
+    
 # Команда /early
 async def early(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
